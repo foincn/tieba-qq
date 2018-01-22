@@ -71,5 +71,19 @@ qq_list = []
 for i in href_list:
     get_page(i)
 
+cookie = ''
 
+def get_cookies():
+    result = {}
+    cookies = cookie.split('; ')
+    for i in cookies:
+        key = i.split('=', 1)[0]
+        value = i.split('=', 1)[1]
+        result[key] = value
+    return(result)
+
+def qq_card(number):
+number = '834539144'
+url = 'http://ti.qq.com/cgi-bin/more_profile_card/more_profile_card'
+payload = {'_q': number, 'bkn': '1527757257', 'src': 'mobile'}
 
