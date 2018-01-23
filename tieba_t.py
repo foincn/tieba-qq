@@ -4,7 +4,7 @@
 
 import requests
 from bs4 import BeautifulSoup
-from ghost import
+from ghost import Ghost, Session
 import re
 import threading
 
@@ -57,10 +57,10 @@ def get_page_url(href):
 def get_page(url):
     print(url)
     r = None
-    while r = None:
+    while r == None:
         try:
-            r = s.get(url)
-        expect:
+            r = s.get(url, timeout=10)
+        except:
             pass
     html = r.content
     soup = BeautifulSoup(html, "html.parser")
@@ -96,8 +96,9 @@ def check_qq(number):
     soup = BeautifulSoup(html, "html.parser")
     age = soup.select('#age')[0].text
     gender = soup.select('#gender')[0].text
-    if gender == '女':
+    if gender != '男':
         result.append(number)
+        print(number)
 
 
 href_list = tieba_list(name, 10)
