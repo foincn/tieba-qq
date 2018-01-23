@@ -5,6 +5,7 @@
 import requests
 from bs4 import BeautifulSoup
 from ghost import
+import re
 
 s = requests.session()
 s.keep_alive = False
@@ -100,6 +101,7 @@ login_qq()
 for i in qq_list:
     if len(i) < 11:
         check_qq(i)
+ 
 
 
 
