@@ -4,6 +4,7 @@
 
 import requests
 from bs4 import BeautifulSoup
+from ghost import
 
 s = requests.session()
 s.keep_alive = False
@@ -65,12 +66,45 @@ def search_number(text):
     #return(result)
 
 
+def login_qq():
+    global se
+    ua_m = 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_1_1 like Mac OS X) AppleWebKit/604.3.5 (KHTML, like Gecko) Version/11.0 Mobile/15B150 Safari/604.1'
+    se = Session(Ghost(), user_agent=ua_m, wait_timeout=30, wait_callback=None, display=True, viewport_size=(375, 553), download_images=True)
+    url = 'https://ui.ptlogin2.qq.com/cgi-bin/login?style=38&appid=728041403&s_url=https%3A%2F%2Finfoapp.3g.qq.com%2Fg%2Flogin%2Fproxy.jsp%3FsourceUrl%3Dhttps%25253A%25252F%25252Fportal.3g.qq.com%25252F%25253F_r%25253D0.2646472700205946%252526aid%25253Dindex%252526g_f%25253D1283&target=self&low_login=1&low_login_hour=4321&daid=261&islogin=false&uid=-8794356048489038000'
+    se.open(url)
+    se.set_field_value('#u', '2873723285')
+    se.set_field_value('#p', 'tz1006')
+    se.click('#go', expect_loading=True)
+
+
+def check_qq(number):
+    url = 'http://ti.qq.com/qcard/index.html?qq=%s' % number
+    se.open(url)
+    html = se.content
+    soup = BeautifulSoup(html, "html.parser")
+    age = soup.select('#age')[0].text
+    gender = soup.select('#gender')[0].text
+    if gender == '女':
+        result.append(number)
+
+
 href_list = tieba_list(name, 10)
 qq_list = []
+result = []
 
 for i in href_list:
     get_page(i)
 
+login_qq()
+
+for i in qq_list:
+    if len(i) < 11:
+        check_qq(i)
+
+
+
+
+    
 cookie = ''
 
 def get_cookies():
